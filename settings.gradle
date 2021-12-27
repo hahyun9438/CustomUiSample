@@ -1,0 +1,4 @@
+rootProject.name = "CustomUiSample"
+include ':app'
+include ':CustomTextViewLibrary'
+include ':CustomLayoutLibrary'

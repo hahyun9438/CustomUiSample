@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_default_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Default TextView --------"
+            android:textColor="@color/sample_ff0050"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <TextView
+            android:id="@+id/tv_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/free_text_2"
+            android:textSize="20dp"
+            android:textColor="@color/sample_black"
+            app:layout_constraintTop_toBottomOf="@id/tv_default_"
+            />
+
+
+
+        <TextView
+            android:id="@+id/tv_custom_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Custom TextView --------"
+            android:textColor="@color/sample_ff0050"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/tv_default"
+            />
+        <com.hhyun.customtextviewlibrary.CharacterWrapTextView
+            android:id="@+id/tv_character_wrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/free_text_2"
+            android:textSize="20dp"
+            android:textColor="@color/sample_black"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@id/tv_custom_"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

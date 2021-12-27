@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="HhyunBadgeWrapTextView">
+        <attr name="max_line" format="integer"/>
+        <attr name="text" format="reference|string"/>
+        <attr name="text_size" format="reference|integer"/>
+        <attr name="text_color" format="reference|color"/>
+        <attr name="gravity" format="integer">
+            <flag name="start" value="0"/>
+            <flag name="center" value="1"/>
+            <flag name="end" value="2"/>
+        </attr>
+        <attr name="line_margin" format="integer" />
+        <attr name="left_margin" format="integer" />
+        <attr name="right_margin" format="integer" />
+        <attr name="left_padding" format="integer" />
+        <attr name="right_padding" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="EndDrawableWrapTextView">
+        <attr name="edw_text" format="reference|string"/>
+        <attr name="edw_text_size" format="reference|integer"/>
+        <attr name="edw_text_color" format="reference"/>
+        <attr name="edw_drawable" format="reference"/>
+        <attr name="edw_drawable_padding" format="integer"/>
+        <attr name="edw_gravity" format="integer">
+            <flag name="start" value="0"/>
+            <flag name="center" value="1"/>
+            <flag name="end" value="2"/>
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="SingleLineDashWrapTextView">
+        <attr name="sld_text" format="reference|string"/>
+        <attr name="sld_text_size" format="reference|integer"/>
+        <attr name="sld_text_color" format="reference|color"/>
+        <attr name="sld_gravity" format="integer">
+            <flag name="start" value="0"/>
+            <flag name="center" value="1"/>
+            <flag name="end" value="2"/>
+        </attr>
+        <attr name="sld_ellipsize" format="integer">
+            <flag name="end" value="0"/>
+            <flag name="middle" value="1"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

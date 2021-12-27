@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MaxHeightScrollView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundConstraintLayout">
+        <attr name="rcl_radius" format="dimension" />
+        <attr name="rcl_radius_left_top" format="dimension" />
+        <attr name="rcl_radius_left_bottom" format="dimension" />
+        <attr name="rcl_radius_right_top" format="dimension" />
+        <attr name="rcl_radius_right_bottom" format="dimension" />
+        <attr name="rcl_shadow_drawable" format="reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ShadowLayout">
+        <attr name="shadowX" format="dimension" />
+        <attr name="shadowY" format="dimension" />
+        <attr name="shadowBlurSize" format="dimension" />
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowBgColor" format="color" />
+        <attr name="shadowBgRadius" format="dimension" />
+        <attr name="shadowBorderColor" format="color" />
+        <attr name="shadowBorderSize" format="dimension" />
+        <attr name="shadowShow" format="boolean" />
+    </declare-styleable>
+
+</resources>
