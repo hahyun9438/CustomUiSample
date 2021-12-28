@@ -98,7 +98,6 @@ abstract class BadgeWrapTextView: LinearLayout {
     }
 
 
-    abstract fun setTextView()
     open fun setView() {
         this.gravity = getParentGravity()
     }
@@ -143,7 +142,7 @@ abstract class BadgeWrapTextView: LinearLayout {
     }
 
     /** 텍스트뷰 */
-    protected fun getCharacterWrapTextView(mText: CharSequence?, maxWidth: Int): TextView? {
+    protected fun getCharacterWrapTextView(mText: CharSequence?, maxWidth: Int? = null): TextView? {
         var textView: CharacterWrapTextView? = null
         mText?.takeIf { it.isNotEmpty() }?.let {
             textView = CharacterWrapTextView(context).apply {
@@ -152,7 +151,7 @@ abstract class BadgeWrapTextView: LinearLayout {
                     this.weight = 1f
                 }
 
-                this.maxWidth = maxWidth
+                this.maxWidth = maxWidth ?: getTextContainerWidth().toInt()
 
                 this.text = it
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize.toFloat())
@@ -303,7 +302,8 @@ abstract class BadgeWrapTextView: LinearLayout {
 
     /** 한 라인에 들어가는 뱃지의 총 너비를 제외한 텍스트뷰만 가질 수 있는 최대 너비 반환 */
     protected fun getTextMaxWidthExcludingBadge(badgeList: List<BadgeData>?): Float {
-        return (getTextContainerWidth() - getBadgeTotalWidth(badgeList))
+        val correctionWidth = (Util.dpToPx(context, mTextSize) + 5).toFloat()
+        return (getTextContainerWidth() - getBadgeTotalWidth(badgeList) - correctionWidth)
     }
 
     /** 한 라인에 들어가는 뱃지의 총 너비 반환 */

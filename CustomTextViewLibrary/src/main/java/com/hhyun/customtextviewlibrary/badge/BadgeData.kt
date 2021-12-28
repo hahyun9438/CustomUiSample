@@ -48,7 +48,12 @@ data class TextBadge(
     override var rightPadding: Float = 0f,
     override var gapMargin: Int = 0
 
-): BadgeData()
+): BadgeData() {
+
+    override fun toString(): String {
+        return "TextBadge(labelText=$labelText)"
+    }
+}
 
 data class ImageBadge(
     override var imageResId: Int,
@@ -61,4 +66,9 @@ data class ImageBadge(
     override var rightPadding: Float = 0f,
     override var gapMargin: Int = 0
 
-): BadgeData()
+): BadgeData() {
+
+    override fun toString(): String {
+        return "ImageBadge(imageResId=$imageResId)"
+    }
+}

@@ -2,6 +2,7 @@ package com.hhyun.customtextviewlibrary.util
 
 import android.content.Context
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.util.TypedValue
 
@@ -48,6 +49,19 @@ object Util {
         paint.getTextWidths(text.toString(), characterWidths)
 
         return characterWidths.sum()
+    }
+
+    fun getTextHeight(context: Context, text: CharSequence?, textSizeOfDp: Int): Float {
+        if(text.isNullOrEmpty()) return 0f
+        val paint = Paint().apply {
+            isAntiAlias = true
+            textSize = dpToPx(context, textSizeOfDp).toFloat()
+        }
+
+        val bounds = Rect()
+        paint.getTextBounds(text.toString(), 0, text.length, bounds)
+
+        return bounds.height().toFloat()
     }
 
 

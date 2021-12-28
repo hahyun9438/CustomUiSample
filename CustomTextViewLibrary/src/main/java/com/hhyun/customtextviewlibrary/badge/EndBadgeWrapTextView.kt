@@ -34,7 +34,6 @@ class EndBadgeWrapTextView: BadgeWrapTextView {
 
     override var badgeWrapType = BadgeWrapTextView.Companion.BadgeWrapType.END
 
-
     private var badgeList = arrayListOf<ArrayList<BadgeData>>()
 
 
@@ -100,36 +99,12 @@ class EndBadgeWrapTextView: BadgeWrapTextView {
         val initBadgeList = getBadgeLineList()
         val badgeLineCount = initBadgeList.size
 
-        if(badgeLineCount == 0) { // 뱃지가 없고 텍스트만 있는 경우
 
-            var remainText = mText
-
-            for(index in 0 until mMaxLine) {
-
-                val textItem = textList.getOrNull(index) ?: ""
-                val textView = getTextView(textItem)
-
-                val isLast = if(textList.size < mMaxLine) index == textList.size - 1 else index == mMaxLine - 1
-
-                textView?.let {
-                    if(isLast) {
-                        it.text = remainText
-                        it.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                        it.ellipsize = TextUtils.TruncateAt.END
-                    } else {
-                        remainText = remainText.removeRange(0, textItem.length)
-                    }
-                    addView(it)
-                    if(index < mMaxLine - 1 && !textList.getOrNull(index + 1).isNullOrEmpty()) {
-                        addView(getLineView())
-                    }
-                }
-
-            }
-
+        /** 뱃지 없고 텍스트만 있는 경우 */
+        if(badgeLineCount == 0) {
+            setOnlyTextView()
             return
         }
-
 
         /**
          * 텍스트도 한줄, 뱃지도 한줄이고 한 라인에 텍스트와 뱃지를 모두 넣었을때 텍스트가 잘리지 않는 경우
@@ -137,190 +112,104 @@ class EndBadgeWrapTextView: BadgeWrapTextView {
          */
         if(textList.size == 1
             && badgeLineCount == 1
-            && !isNotEnoughWidthWithBadge(textList.firstOrNull(), initBadgeList.firstOrNull())) {
+            && !isNotEnoughWidthWithBadge(textList.first(), initBadgeList.first())) {
 
             this.badgeList.addAll(initBadgeList)
 
-            val textView = getTextView(textList.firstOrNull())
-            setTextWithBadgeView(textView, badgeList.firstOrNull())
+            addView(getTextWithBadgeView(textList.first(), badgeList.first()))
 
         } else {
 
+            val hasTextWithBadgeLine = getTextMaxWidthExcludingBadge(initBadgeList.first()) > 0
+
             var tMaxLine = mMaxLine
+            tMaxLine -= badgeLineCount
+            if(hasTextWithBadgeLine) tMaxLine += 1
 
-            if(badgeLineCount > 1) {
-                tMaxLine -= (badgeLineCount - 1)
+            if(tMaxLine < textList.size) this.badgeList.addAll(initBadgeList)
+            else this.badgeList.addAll(getBadgeLineList((textList.lastOrNull())))
 
-                this.badgeList.addAll(
-                    getBadgeLineList(
-                        if(tMaxLine < textList.size) textList.getOrNull(tMaxLine) else textList.lastOrNull())
-                )
-
-            } else {
-                this.badgeList.addAll(initBadgeList)
-            }
-
-            setTextView()
+            setTextView(hasTextWithBadgeLine, tMaxLine)
 
         }
 
     }
 
-    override fun setTextView() {
+    private fun setTextView(hasTextWithBadgeLine: Boolean, maxLine: Int) {
 
-        val addViewList = arrayListOf<View>()   // 임시 뷰 리스트 : 뷰를 거꾸로 담았다가 최종으로 rootView에 정상 순서로 add한다.
+        val isTooBigMaxLine = textList.size < maxLine
 
-        if(badgeList.size == 1) {
+        for(i in 0 until maxLine) {
+            if(i > textList.size - 1) break
 
-            for(i in textList.size - 1 downTo 0) {
-                getTextView(i, mMaxLine, badgeList[0])?.let { addViewList.add(it) }
-            }
+            val textItem = textList[i]
 
-        } else {
-
-            var justBadgeLineCount = 0  // 뱃지로만 구성된 라인 수
-
-            for(index in badgeList.size - 1 downTo 0) {
-
-                val badges = badgeList[index]
-
-                if(index > 0) {
-                    addViewList.add(getBadgeLineView(badges))   // 뱃지로만 구성된 뷰를 넣는다.
-                    justBadgeLineCount++
-
-                } else {
-
-                    if(textList.size + justBadgeLineCount <= mMaxLine) {
-
-                        // 그려야하는 모든 뷰를 그렸을때 최대 라인수를 넘지 않는 경우
-                        // -> 모든 텍스트뷰를 넣는다.
-
-                        for(i in textList.size - 1 downTo 0) {
-                            if(i == textList.size - 1) {
-                                getTextView(i, i + 1, badges)?.let { addViewList.add(it) }
-
-                            } else {
-                                getTextView(i, mMaxLine, badges)?.let { addViewList.add(it) }
-                            }
-                        }
-
-                    } else {
-
-                        // 그려야하는 모든 뷰를 그렸을때 최대 라인수를 넘는 경우
-                        // -> 최대 라인까지만 뷰를 그려서 넣는다.
-
-                        val tMaxLine = mMaxLine - justBadgeLineCount
-
-                        if(mMaxLine == 1 && tMaxLine <= 0) {
-                            // 최대 라인수가 1줄인데 뱃지로만 1줄이 넘어가는 경우에는 첫줄에 텍스트뷰를 무조건 넣는다.
-                            getTextView(0, 1, badges)?.let { addViewList.add(it) }
-
-                        } else {
-                            for(i in tMaxLine - 1 downTo 0) {
-                                getTextView(i, tMaxLine, badges)?.let { addViewList.add(it) }
-                            }
-                        }
-
-                    }
-
+            when {
+                isTooBigMaxLine && i == textList.size - 1 -> addView(getTextWithBadgeView(textItem, badgeList.first()))
+                hasTextWithBadgeLine && i == maxLine - 1 -> {
+                    val nextTextItem = textList.getOrNull(i + 1)
+                    val fixTextItem = textItem.toString() + if(nextTextItem.isNullOrEmpty()) "" else nextTextItem.toString()
+                    addView(getTextWithBadgeView(fixTextItem, badgeList.first()))
                 }
-
+                i == maxLine - 1 -> {
+                    val nextTextItem = textList.getOrNull(i + 1)
+                    val fixTextItem = textItem.toString() + if(nextTextItem.isNullOrEmpty()) "" else nextTextItem.toString()
+                    val tv = getTextView(fixTextItem)
+                    tv?.ellipsize = TextUtils.TruncateAt.END
+                    addView(tv)
+                }
+                else -> addView(getTextView(textItem))
             }
 
+            if(badgeList.size > 1) {
+                addView(getLineView())
+            }
         }
 
+        val badgeLineIndex = if(hasTextWithBadgeLine || isTooBigMaxLine) 1 else 0
+        for(i in badgeLineIndex until badgeList.size) {
+            val badges = badgeList[i]
+            addView(getBadgeLineView(badges))
 
-
-
-        /**
-         * addViewList =
-         * [
-         *  뱃지라인뷰(<-뱃지-><-뱃지-><-뱃지-><-뱃지-><-뱃지->),
-         *  라인뷰(-------------------),
-         *  뱃지라인뷰(<-뱃지-><-뱃지-><-뱃지-><-뱃지-><-뱃지->),
-         *  라인뷰(-------------------),
-         *  텍스트&뱃지뷰(<-----텍스트------><-뱃지-><-뱃지->),
-         *  라인뷰(-------------------),
-         *  텍스트뷰(<--------------텍스트--------------->),
-         *  라인뷰(-------------------),
-         *  텍스트뷰(<--------------텍스트--------------->),
-         * ]
-         *
-         * -> rootView에 add
-         *
-         * <--------------텍스트------------->
-         * --------라인-----------
-         * <--------------텍스트------------->
-         * --------라인-----------
-         * <-----텍스트------><-뱃지-><-뱃지->
-         * --------라인-----------
-         * <-뱃지-><-뱃지-><-뱃지-><-뱃지-><-뱃지->
-         * --------라인-----------
-         * <-뱃지-><-뱃지-><-뱃지-><-뱃지-><-뱃지->
-         */
-        addViewList.reversed().forEachIndexed { index, view ->
-            addView(view)
-            if(index < addViewList.size - 1) {
+            if(i < badgeList.size - 1) {
                 addView(getLineView())
             }
         }
 
     }
 
-    private fun getTextView(index: Int, maxLine: Int, badges: List<BadgeData>): View? {
 
-        val textItem = textList.getOrNull(index) ?: ""
+    /** 뱃지 없고 텍스트만 있는 경우 */
+    private fun setOnlyTextView() {
+        var remainText = mText
 
-        return if(index == maxLine - 1) {
-            getTextWithBadgeView(textItem, badges)
+        for(index in 0 until mMaxLine) {
 
-        } else {
-            getTextView(textItem)
-        }
+            val textItem = textList.getOrNull(index) ?: ""
+            val textView = getTextView(textItem)
 
-    }
+            val isLast = if(textList.size < mMaxLine) index == textList.size - 1 else index == mMaxLine - 1
 
+            textView?.let {
+                if(isLast) {
+                    it.text = remainText
+                    it.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    it.ellipsize = TextUtils.TruncateAt.END
+                } else {
+                    remainText = remainText.removeRange(0, textItem.length)
+                }
 
+                addView(it)
 
+                if(index < mMaxLine - 1 && !textList.getOrNull(index + 1).isNullOrEmpty()) {
+                    addView(getLineView())
+                }
+            }
 
-
-    private fun setTextWithBadgeView(textView: TextView?, badgeList: List<BadgeData>?) {
-
-        /**
-         * 텍스트에 말줄임 처리를 해야하는 경우에는 LinearLayout에 담는다.
-         *
-         * 동해물과 백두산이 마르고...<-뱃지-><-뱃지->
-         */
-
-        val parent = LinearLayout(context).apply {
-            this.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            this.orientation = HORIZONTAL
-            this.gravity = getParentGravity()
-        }
-        addView(parent)
-
-        textView?.let {
-            it.ellipsize = TextUtils.TruncateAt.END
-            parent.addView(it)
-        }
-
-        if(!badgeList.isNullOrEmpty()) {
-
-            val badge = badgeList.firstOrNull()
-            val badgeLineTextView = getBadgeLineView(badgeList)
-
-            parent.addView(getGapView(badge?.gapMargin ?: 0))
-            parent.addView(badgeLineTextView)
         }
     }
 
     private fun getTextWithBadgeView(textItem: CharSequence, badgeList: List<BadgeData>?): FlexboxLayout {
-
-        /**
-         * 텍스트가 짧아 말줄임 처리 없이 wrap으로 넣어야 하는 경우에는 FlexboxLayout에 담는다.
-         *
-         * 안녕하세요.<-뱃지-><-뱃지->
-         */
 
         val flexBoxLayout = FlexboxLayout(context).apply {
             layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:badgewrap="http://schemas.android.com/apk/res-auto"
     >
 
@@ -14,7 +13,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            badgewrap:layout_constraintTop_toTopOf="parent"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,6 +29,7 @@
                     android:layout_height="wrap_content"
                     android:text="StartBadgeWrapTextView ---------"
                     android:textColor="@color/sample_ff0050"
+                    android:fontFamily="@font/noto_bold"
                     />
 
                 <com.hhyun.customtextviewlibrary.badge.StartBadgeWrapTextView
@@ -150,6 +152,7 @@
                     android:layout_marginTop="30dp"
                     android:text="EndBadgeWrapTextView ---------"
                     android:textColor="@color/sample_ff0050"
+                    android:fontFamily="@font/noto_bold"
                     />
 
                 <com.hhyun.customtextviewlibrary.badge.EndBadgeWrapTextView

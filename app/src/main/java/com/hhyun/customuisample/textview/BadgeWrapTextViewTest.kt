@@ -28,11 +28,16 @@ class BadgeWrapTextViewTest: BaseActivity<ActivityBadgeWrapTextViewTestBinding>(
         }
 
         val badges2 = arrayListOf<BadgeData>().apply {
+//            add(textBadge("2021-12-27"))
+//            add(textBadge("공유마당"))
+//            add(textBadge("안데르센"))
+//            add(textBadge("동화"))
+//            add(imageBadge(R.drawable.sample_badge_seashell))
             add(imageBadge(R.drawable.sample_badge_mermaid))
+            add(textBadge("2021-12-27"))
             add(textBadge("공유마당"))
             add(textBadge("안데르센"))
             add(textBadge("동화"))
-            add(textBadge("2021-12-27"))
             add(imageBadge(R.drawable.sample_badge_seashell))
             add(imageBadge(R.drawable.sample_badge_sea))
         }
