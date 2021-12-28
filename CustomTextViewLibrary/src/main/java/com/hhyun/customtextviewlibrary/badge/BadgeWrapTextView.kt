@@ -30,6 +30,8 @@ abstract class BadgeWrapTextView: LinearLayout {
         enum class BadgeWrapType() {
             START, MIDDLE, END
         }
+
+        const val MAX_LINES = 2000
     }
 
 
@@ -37,7 +39,7 @@ abstract class BadgeWrapTextView: LinearLayout {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) { baseInit(attrs) }
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) { baseInit(attrs, defStyleAttr) }
 
-    protected var mMaxLine: Int = 2
+    protected var mMaxLine: Int = MAX_LINES
 
     protected var mText: CharSequence = ""
     protected var mTextSize: Int = 15
@@ -69,7 +71,7 @@ abstract class BadgeWrapTextView: LinearLayout {
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.HhyunBadgeWrapTextView)
         try {
-            this.mMaxLine = typedArray.getInteger(R.styleable.HhyunBadgeWrapTextView_max_line, 2)
+            this.mMaxLine = typedArray.getInteger(R.styleable.HhyunBadgeWrapTextView_max_line, MAX_LINES)
             this.mGravity = typedArray.getInteger(R.styleable.HhyunBadgeWrapTextView_gravity, GRAVITY_START)
             this.mText = typedArray.getText(R.styleable.HhyunBadgeWrapTextView_text) ?: ""
             this.mTextSize = typedArray.getInteger(R.styleable.HhyunBadgeWrapTextView_text_size, 15)
@@ -109,10 +111,10 @@ abstract class BadgeWrapTextView: LinearLayout {
     /** 텍스트의 너비를 계산하기 위해 임시로 생성하는 초기 텍스트뷰 */
     protected fun getTempTextView(tempText: CharSequence?, fixWidth: Float? = null): TextView {
         return TextView(context).apply {
-            layoutParams = if(fixWidth != null && fixWidth > 0) LayoutParams(fixWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+            this.layoutParams = if(fixWidth != null && fixWidth > 0) LayoutParams(fixWidth.toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
             else LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-            text = tempText ?: ""
+            this.text = tempText ?: ""
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize.toFloat())
             setTextColor(ContextCompat.getColor(context, R.color.hhyunctlib_transparent))
         }
@@ -123,13 +125,14 @@ abstract class BadgeWrapTextView: LinearLayout {
         var textView: TextView? = null
         mText?.takeIf { it.isNotEmpty() }?.let {
             textView = TextView(context).apply {
-                layoutParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                this.layoutParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
                     this.gravity = getParentGravity()
                 }
 
-                text = it
+                this.text = it
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize.toFloat())
                 setTextColor(ContextCompat.getColor(context, mTextColor))
+                this.includeFontPadding = false
 
                 if(isSingleLine == true) {
                     setSingleLine()
@@ -154,6 +157,7 @@ abstract class BadgeWrapTextView: LinearLayout {
                 this.text = it
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize.toFloat())
                 setTextColor(ContextCompat.getColor(context, mTextColor))
+                this.includeFontPadding = false
 
                 this.maxLines = 1
                 this.ellipsize = TextUtils.TruncateAt.END
@@ -190,7 +194,7 @@ abstract class BadgeWrapTextView: LinearLayout {
             badgeTextView.setTextColor(ContextCompat.getColor(context, badge.labelTextColor ?: R.color.hhyunctlib_black))
             badgeTextView.setSingleLine()
             badgeTextView.gravity = Gravity.CENTER
-//            badgeTextView.includeFontPadding = false
+            badgeTextView.includeFontPadding = false
         }
 
         var badgeImageView: ImageView? = null
@@ -313,19 +317,16 @@ abstract class BadgeWrapTextView: LinearLayout {
     protected fun getBadgeWidth(badge: BadgeData?): Float {
         if(badge == null) return 0f
 
-        val hasData = !badge.labelText.isNullOrEmpty() || badge.imageResId != null
+        val hasData = badge.isValidBadge
 
         val leftPadding = Util.dpToPx(context, badge.leftPadding)
         val rightPadding = Util.dpToPx(context, badge.rightPadding)
         val margin = Util.dpToPx(context, badge.gapMargin)
 
         val bodyWidth = when {
-            hasData && badge.width != null && badge.width!! > 0 -> Util.dpToPx(context, badge.width!!).toFloat()
-            !badge.labelText.isNullOrEmpty() -> Util.getTextWidth(context, badge.labelText, mTextSize)
-            badge.imageResId != null -> {
-                val d = ContextCompat.getDrawable(context, badge.imageResId!!)
-                d?.intrinsicWidth?.toFloat() ?: 0f
-            }
+            hasData && (badge.width ?: 0) > 0 -> Util.dpToPx(context, badge.width!!).toFloat()
+            badge.badgeType == BadgeType.TEXT -> Util.getTextWidth(context, badge.labelText, badge.labelTextSize)
+            badge.badgeType == BadgeType.IMAGE -> ContextCompat.getDrawable(context, badge.imageResId)?.intrinsicWidth?.toFloat() ?: 0f
             else -> 0f
         }
 
@@ -476,21 +477,3 @@ abstract class BadgeWrapTextView: LinearLayout {
 
 }
 
-data class BadgeData(
-    var labelText: CharSequence? = "",
-    var labelTextSize: Int? = 11,
-    var labelTextColor: Int? = R.color.hhyunctlib_grey_666,
-    var imageResId: Int? = null,
-    var background: Int? = null,
-    var width: Int? = null,
-    var height: Int? = null,
-    var topPadding: Float = 0f,
-    var bottomPadding: Float = 0f,
-    val leftPadding: Float = 0f,
-    val rightPadding: Float = 0f,
-    var gapMargin: Int = 0
-) {
-    override fun toString(): String {
-        return "BadgeData(labelText=$labelText, imageResId=$imageResId)"
-    }
-}

@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text="@string/free_text_0"
                     badgewrap:max_line="3"
                     badgewrap:text_size="16"
                     badgewrap:text_color="@color/sample_black"
@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text="@string/free_text_0"
                     badgewrap:max_line="3"
                     badgewrap:text_size="16"
                     badgewrap:text_color="@color/sample_black"
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text="@string/free_text_0"
                     badgewrap:max_line="3"
                     badgewrap:text_size="16"
                     badgewrap:text_color="@color/sample_black"
@@ -86,6 +86,63 @@
                     badgewrap:right_padding="20"
                     />
 
+                <com.hhyun.customtextviewlibrary.badge.StartBadgeWrapTextView
+                    android:id="@+id/sbwtv_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:max_line="3"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="1"
+                    badgewrap:left_padding="20"
+                    badgewrap:right_padding="20"
+                    />
+
+                <com.hhyun.customtextviewlibrary.badge.StartBadgeWrapTextView
+                    android:id="@+id/sbwtv_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:max_line="3"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="2"
+                    badgewrap:left_padding="20"
+                    badgewrap:right_padding="20"
+                    />
+
+                <com.hhyun.customtextviewlibrary.badge.StartBadgeWrapTextView
+                    android:id="@+id/sbwtv_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:max_line="3"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="0"
+                    badgewrap:left_padding="20"
+                    badgewrap:right_padding="20"
+                    badgewrap:line_margin="5"
+                    />
+
+                <com.hhyun.customtextviewlibrary.badge.StartBadgeWrapTextView
+                    android:id="@+id/sbwtv_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="0"
+                    badgewrap:left_padding="20"
+                    badgewrap:right_padding="20"
+                    badgewrap:line_margin="5"
+                    />
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -100,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text="@string/free_text_0"
                     badgewrap:max_line="3"
                     badgewrap:text_size="16"
                     badgewrap:text_color="@color/sample_black"
@@ -113,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text="@string/free_text_0"
                     badgewrap:max_line="3"
                     badgewrap:text_size="16"
                     badgewrap:text_color="@color/sample_black"
@@ -126,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text="@string/free_text_0"
                     badgewrap:max_line="3"
                     badgewrap:text_size="16"
                     badgewrap:text_color="@color/sample_black"
@@ -145,6 +202,57 @@
                     badgewrap:text_color="@color/sample_black"
                     badgewrap:gravity="0"
                     badgewrap:line_margin="3"
+                    />
+
+                <com.hhyun.customtextviewlibrary.badge.EndBadgeWrapTextView
+                    android:id="@+id/ebwtv_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:max_line="3"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="1"
+                    badgewrap:line_margin="3"
+                    />
+
+                <com.hhyun.customtextviewlibrary.badge.EndBadgeWrapTextView
+                    android:id="@+id/ebwtv_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:max_line="3"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="2"
+                    badgewrap:line_margin="3"
+                    />
+
+                <com.hhyun.customtextviewlibrary.badge.EndBadgeWrapTextView
+                    android:id="@+id/ebwtv_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:max_line="3"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="0"
+                    badgewrap:line_margin="5"
+                    />
+
+                <com.hhyun.customtextviewlibrary.badge.EndBadgeWrapTextView
+                    android:id="@+id/ebwtv_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    badgewrap:text="@string/free_text_1"
+                    badgewrap:text_size="16"
+                    badgewrap:text_color="@color/sample_black"
+                    badgewrap:gravity="0"
+                    badgewrap:line_margin="5"
                     />
 
             </LinearLayout>

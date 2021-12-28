@@ -196,7 +196,12 @@ class EndBadgeWrapTextView: BadgeWrapTextView {
                         // -> 모든 텍스트뷰를 넣는다.
 
                         for(i in textList.size - 1 downTo 0) {
-                            getTextView(i, i + 1, badges)?.let { addViewList.add(it) }
+                            if(i == textList.size - 1) {
+                                getTextView(i, i + 1, badges)?.let { addViewList.add(it) }
+
+                            } else {
+                                getTextView(i, mMaxLine, badges)?.let { addViewList.add(it) }
+                            }
                         }
 
                     } else {

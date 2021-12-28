@@ -6,4 +6,8 @@
     <color name="hhyunctlib_grey_666">#666666</color>
 
 
+
+    <drawable name="hhyunctlib_transparent">#00000000</drawable>
+
+
 </resources>

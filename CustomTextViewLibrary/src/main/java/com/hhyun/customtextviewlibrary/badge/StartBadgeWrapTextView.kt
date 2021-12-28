@@ -1,13 +1,10 @@
 package com.hhyun.customtextviewlibrary.badge
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.hhyun.customtextviewlibrary.R
 
 /**
  * 뱃지와 텍스트가 연달아 붙어 있는 커스텀 텍스트뷰
@@ -177,7 +174,7 @@ class StartBadgeWrapTextView: BadgeWrapTextView {
 
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    mMaxLine = 2
+                    mMaxLine = MAX_LINES
                     textList.add(tempTextList.joinToString(""))
                 }
 
@@ -284,7 +281,7 @@ class StartBadgeWrapTextView: BadgeWrapTextView {
         var oneLineBadgeWidth = 0f
         var oneLineBadgeList = arrayListOf<BadgeData>()
 
-        mBadgeList.forEach { badge ->
+        mBadgeList.forEachIndexed { index, badge ->
 
             oneLineBadgeWidth += getBadgeWidth(badge)
 
